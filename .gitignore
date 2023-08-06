@@ -1,0 +1,8 @@
+node_modules/
+dist/
+config/
+.DS_Store
+.env
+uploads/
+lerna-debug.log
+yarn-error.log
