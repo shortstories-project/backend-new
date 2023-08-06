@@ -6,3 +6,8 @@ config/
 uploads/
 lerna-debug.log
 yarn-error.log
+
+.next/
+.build/
+
+db.sqlite
