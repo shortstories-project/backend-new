@@ -1,0 +1,105 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum GenresList {
+  Detectives
+  SciFi
+  Action
+  Fantasy
+  Adventure
+  Comedy
+  Horror
+  Life
+  ForAdult
+}
+
+enum ReactionStates {
+  Like
+  Dislike
+}
+
+model Comments {
+  id        Int        @id @default(autoincrement())
+  body      String?    @db.VarChar(255)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  userId    Int?
+  storyId   Int?
+  commentId Int?
+  comments  Comments?  @relation("CommentsToComments", fields: [commentId], references: [id])
+  replies   Comments[] @relation("CommentsToComments")
+  stories   Stories?   @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  users     Users?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Genres {
+  id        Int        @id @default(autoincrement())
+  name      GenresList
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  stories   Stories[]
+}
+
+model Reactions {
+  id        Int            @id @default(autoincrement())
+  state     ReactionStates
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  userId    Int?
+  storyId   Int?
+  stories   Stories?       @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  users     Users?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Stories {
+  id        Int         @id @default(autoincrement())
+  title     String      @db.VarChar(255)
+  body      String
+  length    Int?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  userId    Int?
+  genreId   Int?
+  comments  Comments[]
+  reactions Reactions[]
+  genres    Genres?     @relation(fields: [genreId], references: [id])
+  users     Users?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  views     Views[]
+}
+
+model Users {
+  id                Int         @id @default(autoincrement())
+  username          String      @unique @db.VarChar(255)
+  email             String      @unique @db.VarChar(255)
+  password          String      @db.VarChar(255)
+  photo             String?     @db.VarChar(255)
+  info              String?     @db.VarChar(255)
+  isVerified        Boolean     @default(false)
+  verifyToken       String?     @db.VarChar(255)
+  verifyTokenExpiry DateTime?   @db.Timestamptz(6)
+  resetToken        String?     @db.VarChar(255)
+  resetTokenExpiry  DateTime?   @db.Timestamptz(6)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  comments          Comments[]
+  reactions         Reactions[]
+  stories           Stories[]
+  views             Views[]
+}
+
+model Views {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    Int?
+  storyId   Int?
+  stories   Stories? @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  users     Users?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

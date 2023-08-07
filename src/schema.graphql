@@ -91,26 +91,22 @@ type Query {
 
   # Stories
   stories(
-    offset: Int = 0,
-    limit: Int = 20,
-    userId: ID,
-    isLiked: Boolean = false,
-    length: String,
-    genres: [ID],
-    mostLiked: Boolean = false,
-    mostViewed: Boolean = false,
-    mostCommented: Boolean = false,
+    offset: Int = 0
+    limit: Int = 20
+    userId: ID
+    isLiked: Boolean = false
+    length: String
+    genres: [ID]
+    mostLiked: Boolean = false
+    mostViewed: Boolean = false
+    mostCommented: Boolean = false
   ): StoryConnection!
   story(id: ID!): Story!
   reactions(storyId: ID!): [Reaction!]!
   genres: [Genre]
 
   # Comments
-  comments(
-    cursor: String,
-    limit: Int = 10,
-    storyId: ID!
-  ): [Comment!]!
+  comments(cursor: String, limit: Int = 10, storyId: ID!): [Comment!]!
 }
 
 type Mutation {
