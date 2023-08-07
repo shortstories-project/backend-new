@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "compile": "tsc",
+    "generate": "graphql-codegen",
+    "compile": "npm run generate && tsc",
     "postinstall": "npm run compile",
     "start": "npm run compile && node ./dist/index.js"
   },
@@ -17,9 +18,14 @@
   "dependencies": {
     "@prisma/client": "^5.1.1",
     "graphql": "^16.7.1",
+    "graphql-yoga": "^4.0.3",
+    "picocolors": "^1.0.0",
     "prisma": "^5.1.1"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1",
     "@types/node": "^20.4.8",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",

@@ -1,21 +1,26 @@
-import { PrismaClient } from '@prisma/client'
+import { createSchema, createYoga } from 'graphql-yoga'
+import { readFileSync } from 'node:fs'
+import { createServer } from 'node:http'
+import pc from 'picocolors'
 
-import { add } from './add.js'
+import { Resolvers } from './__generated__/resolvers-types.js'
 
-const prisma = new PrismaClient()
+const typeDefs = readFileSync('./schema.graphql', 'utf8')
 
-async function main() {
-  const genres = await prisma.genres.findMany()
-  console.log(genres)
-  console.log(add(1, 2))
+const resolvers: Resolvers = {
+  Query: {
+    // typed resolvers
+  },
 }
 
-main()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async e => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
+const schema = createSchema({ resolvers, typeDefs })
+const yoga = createYoga({ schema })
+const server = createServer(yoga)
+
+server.listen(4444, () => {
+  console.log(
+    `\n🔥 Server is now running on ${pc.yellow(
+      `http://localhost:4444/graphql`,
+    )} 🔥`,
+  )
+})
