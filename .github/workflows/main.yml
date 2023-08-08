@@ -24,4 +24,4 @@ jobs:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Restart App on Droplet
-      run: ssh -o StrictHostKeyChecking=no root@104.248.85.224 "cd projects/backend-new && git pull && npm install && npm run build && pm2 restart api"
+      run: ssh -o StrictHostKeyChecking=no root@104.248.85.224 "cd projects/backend-new && git pull && bash restart.sh"
