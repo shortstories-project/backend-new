@@ -25,7 +25,10 @@ jobs:
         username: root
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
+          export NVM_DIR=~/.nvm
+          source ~/.nvm/nvm.sh
           cd projects/backend-new
+          git pull
           npm install
           npm run build
           pm2 restart api
