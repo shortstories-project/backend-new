@@ -23,20 +23,20 @@ export type Comment = {
   body?: Maybe<Scalars['String']['output']>;
   commentId?: Maybe<Scalars['ID']['output']>;
   createdAt: Scalars['Date']['output'];
-  id: Scalars['ID']['output'];
+  id: Scalars['Int']['output'];
   user: User;
 };
 
 export type Genre = {
   __typename?: 'Genre';
-  id: Scalars['ID']['output'];
+  id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
 };
 
 export type Me = {
   __typename?: 'Me';
   email: Scalars['String']['output'];
-  id: Scalars['ID']['output'];
+  id: Scalars['Int']['output'];
   info?: Maybe<Scalars['String']['output']>;
   isVerified: Scalars['Boolean']['output'];
   photo?: Maybe<Scalars['String']['output']>;
@@ -45,7 +45,7 @@ export type Me = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  checkUserExist: Scalars['Boolean']['output'];
+  checkUserExists: Scalars['Boolean']['output'];
   createComment: Comment;
   createStory: Story;
   deleteComment: Comment;
@@ -66,7 +66,7 @@ export type Mutation = {
 };
 
 
-export type MutationCheckUserExistArgs = {
+export type MutationCheckUserExistsArgs = {
   login: Scalars['String']['input'];
 };
 
@@ -74,13 +74,13 @@ export type MutationCheckUserExistArgs = {
 export type MutationCreateCommentArgs = {
   body: Scalars['String']['input'];
   commentId?: InputMaybe<Scalars['ID']['input']>;
-  id: Scalars['ID']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
 export type MutationCreateStoryArgs = {
   body: Scalars['String']['input'];
-  genreId: Scalars['ID']['input'];
+  genreId: Scalars['Int']['input'];
   title: Scalars['String']['input'];
 };
 
@@ -88,22 +88,22 @@ export type MutationCreateStoryArgs = {
 export type MutationDeleteCommentArgs = {
   commentId?: InputMaybe<Scalars['ID']['input']>;
   hasChildren: Scalars['Boolean']['input'];
-  id: Scalars['ID']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
 export type MutationDeleteStoryArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
 export type MutationDislikeStoryArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
 export type MutationLikeStoryArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
@@ -143,14 +143,14 @@ export type MutationSignUpArgs = {
 
 export type MutationUpdateCommentArgs = {
   body: Scalars['String']['input'];
-  id: Scalars['ID']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
 export type MutationUpdateStoryArgs = {
   body: Scalars['String']['input'];
-  genreId: Scalars['ID']['input'];
-  id: Scalars['ID']['input'];
+  genreId: Scalars['Int']['input'];
+  id: Scalars['Int']['input'];
   title: Scalars['String']['input'];
 };
 
@@ -167,7 +167,7 @@ export type MutationVerifyUserArgs = {
 
 
 export type MutationViewStoryArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars['Int']['input'];
 };
 
 export type PageInfo = {
@@ -186,7 +186,7 @@ export type Query = {
   __typename?: 'Query';
   comments: Array<Comment>;
   genres?: Maybe<Array<Maybe<Genre>>>;
-  me: Me;
+  me?: Maybe<Me>;
   reactions: Array<Reaction>;
   stories: StoryConnection;
   story: Story;
@@ -197,12 +197,12 @@ export type Query = {
 export type QueryCommentsArgs = {
   cursor?: InputMaybe<Scalars['String']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
-  storyId: Scalars['ID']['input'];
+  storyId: Scalars['Int']['input'];
 };
 
 
 export type QueryReactionsArgs = {
-  storyId: Scalars['ID']['input'];
+  storyId: Scalars['Int']['input'];
 };
 
 
@@ -220,20 +220,20 @@ export type QueryStoriesArgs = {
 
 
 export type QueryStoryArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
 export type QueryUserArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars['Int']['input'];
 };
 
 export type Reaction = {
   __typename?: 'Reaction';
-  id: Scalars['ID']['output'];
+  id: Scalars['Int']['output'];
   state: Scalars['String']['output'];
-  storyId: Scalars['ID']['output'];
-  userId: Scalars['ID']['output'];
+  storyId: Scalars['Int']['output'];
+  userId: Scalars['Int']['output'];
 };
 
 export type RequestReset = {
@@ -254,7 +254,7 @@ export type Story = {
   body: Scalars['String']['output'];
   createdAt: Scalars['Date']['output'];
   genre?: Maybe<Genre>;
-  id: Scalars['ID']['output'];
+  id: Scalars['Int']['output'];
   length: Scalars['Int']['output'];
   stats: Stats;
   title: Scalars['String']['output'];
@@ -263,7 +263,7 @@ export type Story = {
 
 export type StoryConnection = {
   __typename?: 'StoryConnection';
-  edges: Array<Story>;
+  edges: Array<Maybe<Story>>;
   pageInfo: PageInfoStories;
 };
 
@@ -274,7 +274,7 @@ export type SuccessMessage = {
 
 export type User = {
   __typename?: 'User';
-  id: Scalars['ID']['output'];
+  id: Scalars['Int']['output'];
   info?: Maybe<Scalars['String']['output']>;
   photo?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
@@ -282,8 +282,8 @@ export type User = {
 
 export type View = {
   __typename?: 'View';
-  id: Scalars['ID']['output'];
-  storyId: Scalars['ID']['output'];
+  id: Scalars['Int']['output'];
+  storyId: Scalars['Int']['output'];
   userId?: Maybe<Scalars['ID']['output']>;
 };
 
@@ -412,7 +412,7 @@ export type CommentResolvers<ContextType = any, ParentType extends ResolversPare
   body?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   commentId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -422,14 +422,14 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type GenreResolvers<ContextType = any, ParentType extends ResolversParentTypes['Genre'] = ResolversParentTypes['Genre']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Me'] = ResolversParentTypes['Me']> = {
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   info?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isVerified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   photo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -438,7 +438,7 @@ export type MeResolvers<ContextType = any, ParentType extends ResolversParentTyp
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  checkUserExist?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCheckUserExistArgs, 'login'>>;
+  checkUserExists?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCheckUserExistsArgs, 'login'>>;
   createComment?: Resolver<ResolversTypes['Comment'], ParentType, ContextType, RequireFields<MutationCreateCommentArgs, 'body' | 'id'>>;
   createStory?: Resolver<ResolversTypes['Story'], ParentType, ContextType, RequireFields<MutationCreateStoryArgs, 'body' | 'genreId' | 'title'>>;
   deleteComment?: Resolver<ResolversTypes['Comment'], ParentType, ContextType, RequireFields<MutationDeleteCommentArgs, 'hasChildren' | 'id'>>;
@@ -473,7 +473,7 @@ export type PageInfoStoriesResolvers<ContextType = any, ParentType extends Resol
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   comments?: Resolver<Array<ResolversTypes['Comment']>, ParentType, ContextType, RequireFields<QueryCommentsArgs, 'limit' | 'storyId'>>;
   genres?: Resolver<Maybe<Array<Maybe<ResolversTypes['Genre']>>>, ParentType, ContextType>;
-  me?: Resolver<ResolversTypes['Me'], ParentType, ContextType>;
+  me?: Resolver<Maybe<ResolversTypes['Me']>, ParentType, ContextType>;
   reactions?: Resolver<Array<ResolversTypes['Reaction']>, ParentType, ContextType, RequireFields<QueryReactionsArgs, 'storyId'>>;
   stories?: Resolver<ResolversTypes['StoryConnection'], ParentType, ContextType, RequireFields<QueryStoriesArgs, 'isLiked' | 'limit' | 'mostCommented' | 'mostLiked' | 'mostViewed' | 'offset'>>;
   story?: Resolver<ResolversTypes['Story'], ParentType, ContextType, RequireFields<QueryStoryArgs, 'id'>>;
@@ -481,10 +481,10 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type ReactionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Reaction'] = ResolversParentTypes['Reaction']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   state?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  storyId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  storyId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -505,7 +505,7 @@ export type StoryResolvers<ContextType = any, ParentType extends ResolversParent
   body?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   genre?: Resolver<Maybe<ResolversTypes['Genre']>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   length?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   stats?: Resolver<ResolversTypes['Stats'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -514,7 +514,7 @@ export type StoryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type StoryConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['StoryConnection'] = ResolversParentTypes['StoryConnection']> = {
-  edges?: Resolver<Array<ResolversTypes['Story']>, ParentType, ContextType>;
+  edges?: Resolver<Array<Maybe<ResolversTypes['Story']>>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes['PageInfoStories'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -529,7 +529,7 @@ export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
 }
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   info?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   photo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -537,8 +537,8 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type ViewResolvers<ContextType = any, ParentType extends ResolversParentTypes['View'] = ResolversParentTypes['View']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  storyId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  storyId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
