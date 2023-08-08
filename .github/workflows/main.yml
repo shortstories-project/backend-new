@@ -29,11 +29,11 @@ jobs:
         mkdir -p ~/.ssh
         touch ~/.ssh/known_hosts
         ssh-keyscan 104.248.85.224 >> ~/.ssh/known_hosts
+        eval $(ssh-agent -s)
+        ssh-add ~/.ssh/id_rsa
 
     - name: Deploy to Droplet
       run: |
-        ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N "" -C "shashkovdanil@gmail.com"
-        ssh-add ~/.ssh/id_rsa
         rsync -r --delete-after -e "ssh -o StrictHostKeyChecking=no" ./dist/ root@104.248.85.224:projects/backend-new
 
     - name: Restart App on Droplet
