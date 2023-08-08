@@ -24,12 +24,15 @@ jobs:
     - name: Build app
       run: npm run build
 
-    - name: Prepare SSH
+    - name: Setup SSH key
       run: |
-        mkdir -p ~/.ssh
+        mkdir -p ~/.ssh/
         echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan 104.248.85.224 >> ~/.ssh/known_hosts
+        echo "$SSH_PUBLIC_KEY" > ~/.ssh/id_rsa.pub
+
+    - name: Add DigitalOcean host to known hosts
+      run: ssh-keyscan 104.248.85.224 >> ~/.ssh/known_hosts
 
     - name: Deploy to Droplet
       run: |
@@ -37,6 +40,3 @@ jobs:
 
     - name: Restart App on Droplet
       run: ssh root@104.248.85.224 "npm run start:prod"
-
-    - name: Stop SSH agent
-      run: eval $(ssh-agent -k)
