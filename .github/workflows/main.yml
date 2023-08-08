@@ -21,17 +21,20 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Build app
-      run: npm run build
+    # - name: Build app
+    #   run: npm run build
 
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    # - name: Set up SSH
+    #   uses: webfactory/ssh-agent@v0.5.3
+    #   with:
+    #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Deploy to Droplet
-      run: |
-        rsync -r --delete-after -e "ssh -o StrictHostKeyChecking=no" ./dist/ root@104.248.85.224:projects/backend-new
+    # - name: Deploy to Droplet
+    #   run: |
+    #     rsync -r --delete-after -e "ssh -o StrictHostKeyChecking=no" ./dist/ root@104.248.85.224:projects/backend-new
 
-    - name: Restart App on Droplet
-      run: ssh root@104.248.85.224 "npm run start:prod"
+    # - name: Start Application with pm2
+    #   run: pm2 start /path/to/your/app.js --name=myapp
+
+    # - name: Restart App on Droplet
+    #   run: ssh root@104.248.85.224 "cd projects/backend-new && npm run start:prod"
