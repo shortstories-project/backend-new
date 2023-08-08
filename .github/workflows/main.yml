@@ -24,16 +24,10 @@ jobs:
     - name: Build app
       run: npm run build
 
-    - name: Setup SSH key
-      run: |
-        mkdir -p ~/.ssh/
-        chmod 700 ~/.ssh
-        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        echo "$SSH_PUBLIC_KEY" > ~/.ssh/id_rsa.pub
-        ssh-keyscan 104.248.85.224 >> ~/.ssh/known_hosts
-        ls -la ~/.ssh
-        ssh root@104.248.85.224
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Deploy to Droplet
       run: |
