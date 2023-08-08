@@ -18,10 +18,22 @@ jobs:
       with:
         node-version: 18
 
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
+    - name: SSH Deploy
+      uses: appleboy/ssh-action@master
       with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        host: 104.248.85.224
+        username: root
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd projects/backend-new
+          npm install
+          npm run build
+          pm2 restart api
 
-    - name: Restart App on Droplet
-      run: ssh -o StrictHostKeyChecking=no root@104.248.85.224 "cd projects/backend-new && git pull && bash restart.sh"
+    # - name: Set up SSH
+    #   uses: webfactory/ssh-agent@v0.5.3
+    #   with:
+    #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    # - name: Restart App on Droplet
+    #   run: ssh -o StrictHostKeyChecking=no root@104.248.85.224 "cd projects/backend-new && git pull && bash restart.sh"

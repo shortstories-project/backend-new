@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export NVM_DIR=~/.nvm
+source ~/.nvm/nvm.sh
+
 git pull
 
 node_path=/root/.nvm/versions/node/v18.17.0/bin/node
