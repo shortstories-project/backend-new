@@ -30,7 +30,8 @@ jobs:
         touch ~/.ssh/known_hosts
         ssh-keyscan 104.248.85.224 >> ~/.ssh/known_hosts
         eval $(ssh-agent -s)
-        ssh-add ~/.ssh/id_rsa
+        chmod 600 /home/runner/.ssh/id_rsa
+        ssh-add /home/runner/.ssh/id_rsa
 
     - name: Deploy to Droplet
       run: |
@@ -38,3 +39,6 @@ jobs:
 
     - name: Restart App on Droplet
       run: ssh root@104.248.85.224 "npm run start:prod"
+
+    - name: Stop SSH agent
+      run: eval $(ssh-agent -k)
