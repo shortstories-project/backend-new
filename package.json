@@ -11,8 +11,7 @@
     "generate": "graphql-codegen",
     "compile": "npm run generate && npm run tsc && npm run tsc-alias",
     "build": "npm run clean && npm run compile",
-    "start:dev": "npm run compile && NODE_ENV=development node ./dist/index.js",
-    "start:prod": "NODE_ENV=production node ./dist/index.js"
+    "start": "npm run compile && NODE_ENV=development node ./dist/index.js"
   },
   "prisma": {
     "seed": "node --loader ts-node/esm prisma/seed.ts"
