@@ -32,6 +32,7 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         echo "$SSH_PUBLIC_KEY" > ~/.ssh/id_rsa.pub
         ssh-keyscan 104.248.85.224 >> ~/.ssh/known_hosts
+        ls -la ~/.ssh
         ssh root@104.248.85.224
 
     - name: Deploy to Droplet
