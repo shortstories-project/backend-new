@@ -6,10 +6,10 @@
   "type": "module",
   "scripts": {
     "clean": "rm -rf ./dist",
-    "tsc": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
+    "tsc": "tsc",
+    "tsc-alias": "tsc-alias -p tsconfig.json",
     "generate": "graphql-codegen",
-    "compile": "npm run generate && npm run tsc",
-    "postinstall": "npm run compile",
+    "compile": "npm run generate && npm run tsc && npm run tsc-alias",
     "start:dev": "npm run compile && NODE_ENV=development node ./dist/index.js",
     "start:prod": "npm run clean && npm run compile && NODE_ENV=production node ./dist/index.js"
   },
